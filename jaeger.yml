@@ -1,0 +1,22 @@
+- hosts: webserver
+  become: true
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  tasks:
+    - name: Jaeger'i baslat
+      community.docker.docker_container:
+        name: jaeger-container
+        image: jaegertracing/all-in-one:latest
+        ports:
+          - "8080:16686"
+          - "9411:9411" 
+        detach: true
+
+    - name: HotROD örneğini baslat
+      community.docker.docker_container: 
+        name: jaeger-hotrod-container
+        image: jaegertracing/example-hotrod:latest
+        ports:
+          - "8081:8080"
+        detach: true
+

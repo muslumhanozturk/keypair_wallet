@@ -1,0 +1,33 @@
+---
+- name: Ubuntu 22.04 K3s Kurulumu
+  hosts: webserver
+  become: true  
+
+  tasks:
+    - name: Sistem Güncelleme
+      ansible.builtin.apt:
+        upgrade: yes
+        update_cache: yes
+
+    - name: Gerekli Paketleri Yükle
+      ansible.builtin.apt:
+        name:
+          - curl
+      become: true
+
+    - name: K3s Kurulum Komutunu Calistir
+      ansible.builtin.shell: "curl -sfL https://get.k3s.io | sh -"
+      become: true
+
+    - name: 10 Saniye Bekle
+      ansible.builtin.pause:
+        seconds: 10
+
+    - name: Kubectl Get Nodes Komutunu Calistir
+      ansible.builtin.shell: "kubectl get nodes"
+      become: true
+      register: kubectl_output
+
+    - name: Debug - Kubectl Output
+      ansible.builtin.debug:
+        var: kubectl_output.stdout_lines

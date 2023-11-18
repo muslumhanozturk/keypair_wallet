@@ -1,0 +1,60 @@
+---
+- name: Prometheus, Grafana ve Node Exporter Kurulumu
+  hosts: webserver
+  become: true
+
+  tasks:
+    - name: Prometheus için gerekli paketleri yükle
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop: 
+        - prometheus
+
+    - name: Ek depo için apt-transport-https yükle
+      apt:
+        name: apt-transport-https
+        state: present
+
+    - name: Grafana'nin APT anahtarini ekleyin
+      apt_key:
+        url: https://packages.grafana.com/gpg.key
+        state: present
+
+    - name: Grafana APT deposunu ekleyin
+      apt_repository:
+        repo: deb https://packages.grafana.com/oss/deb stable main
+        state: present
+
+    - name: Grafana için gerekli paketleri yükle
+      apt:
+        name: "{{ item }}"
+        state: present 
+      loop:
+        - grafana
+
+    - name: Node Exporter için gerekli paketleri yükle
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - prometheus-node-exporter
+
+    - name: Prometheus servisini başlat ve başlangiçta otomatik olarak başlatilmasini sağla
+      systemd:
+        name: prometheus
+        state: started
+        enabled: yes
+
+    - name: Grafana servisini başlat ve başlangiçta otomatik olarak başlatilmasini sağla
+      systemd:
+        name: grafana-server
+        state: started
+        enabled: yes
+
+    - name: Node Exporter servisini başlat ve başlangiçta otomatik olarak başlatilmasini sağla
+      systemd:
+        name: prometheus-node-exporter
+        state: started
+        enabled: yes
+

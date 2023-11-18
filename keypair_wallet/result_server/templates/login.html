@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login</title>
+  <style>
+    body {
+      max-width: 600px;
+      margin: auto;
+      color: aliceblue;
+      background-size: cover;
+      background-attachment: fixed;
+      background-image: url(../static/backgrounds.jpg);
+    }
+
+    div {
+      margin-top: 100px;
+      margin-bottom: 50px;
+      margin-right: auto;
+      margin-left: auto;
+    }
+
+    img {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    form {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    input {
+      box-sizing: border-box;
+      width: 100%;
+      padding: 15px;
+      margin: 10px 0;
+      display: inline-block;
+      border: none;
+      background: #f1f1f1;
+    }
+
+    button {
+      box-sizing: border-box;
+      background-color: #4caf50;
+      color: white;
+      padding: 16px 20px;
+      margin: 8px 0;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      opacity: 0.9;
+    }
+
+    .warning {
+      color: red;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div><img src="../static/ttbb.png" /></div>
+
+  <h1>Login</h1>
+
+  <form method="POST" action="/login">
+    <input type="text" name="username" placeholder="Username" required>
+    <input type="password" name="password" placeholder="Password" required>
+    <button type="submit">Login</button>
+  </form>
+
+</body>
+
+</html>

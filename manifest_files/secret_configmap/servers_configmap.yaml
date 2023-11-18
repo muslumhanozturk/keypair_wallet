@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: servers-configmap
+data:
+  MYSQL_DATABASE: keypair
+  MYSQL_USER: Bulutbilisimci                 
+  MYSQL_DATABASE_HOST: mysql-service

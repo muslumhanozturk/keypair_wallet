@@ -1,24 +1,28 @@
 pipeline {
     agent any
+
+    tools {
+        ansible 'ansible'
+        kubernetesTools 'kubectl' 
+    }
+
     stages {
-        stage('Build') {
+        stage('Ansible Playbooks') {
             steps {
-                sh 'mvn -f hello-app/pom.xml -B -DskipTests clean package'
-            }
-            post {
-                success {
-                    echo "Now Archiving the Artifacts....."
-                    archiveArtifacts artifacts: '**/*.jar'
+                script {
+                    // Ansible dosyalarını çalıştır
+                    sh 'ansible-playbook kubernetes_and_config.yml'
+                    sh 'ansible-playbook prometheus_grafana_nodeexporter.yml'
                 }
             }
         }
-        stage('Test') {
+
+        stage('Kubernetes Deploy') {
             steps {
-                sh 'mvn -f hello-app/pom.xml test'
-            }
-            post {
-                always {
-                    junit 'hello-app/target/surefire-reports/*.xml'
+                script {
+                    // Kubernetes YAML dosyalarını uygula
+                    sh 'kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.2/deploy/static/provider/aws/deploy.yaml'
+                    sh 'kubectl apply -f kubernetes-files/'
                 }
             }
         }

@@ -10,7 +10,7 @@ Bu projeyi version-1 olarak sundum ancak geliştirme aşamasında ve 2 önemli k
 
 1- Daha hızlı aksiyon alınabilmesi için yeni key dosyalarının script yardımıyla Bulut Hizmet Sağlayacılarında oluşturulması ve uygulamaya eklenmesi.
 
-2- Bu key dosyalarının daha korunaklı saklanabilmesi için kendi şifreleme algoraitmamı oluşturup sisteme dahil etmek istiyorum. 
+2- Bu key dosyalarının daha korunaklı saklanabilmesi için kendi şifreleme algoritmamı oluşturup sisteme dahil etmek istiyorum. 
 
 Keypair Wallet adını verdiğim projede Ansible, Docker, Kubernetes, Prometheus, Grafana, Jaeger, Jenkins gibi DevOps araçlarının yanı sıra Python, HTML, SQL Database, Nginx gibi teknolojiler ve Slack bildirimleri de aktif olarak kullanılmaktadır. 
 

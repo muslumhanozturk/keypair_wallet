@@ -49,5 +49,17 @@ pipeline {
             }
         }
     }
-}
 
+    post {
+        success {
+            script {
+                slackSend channel: '#keypair-wallet', color: 'good', message: "Build başariyla tamamlandi: ${currentBuild.fullDisplayName}"
+            }
+        }
+        failure {
+            script {
+                slackSend channel: '#keypair-wallet', color: 'danger', message: "Build başarisiz oldu: ${currentBuild.fullDisplayName}"
+            }
+        }
+    }
+}

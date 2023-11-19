@@ -9,7 +9,7 @@
         upgrade: yes
         update_cache: yes
 
-    - name: Python 3 ve Pip Yükle
+    - name: Python3 ve Pip Yükle
       ansible.builtin.apt:
         name:
           - python3
@@ -20,7 +20,7 @@
       ansible.builtin.shell: "pip3 install docker"
       become: true
 
-    - name: Gerekli Paketleri Yükle
+    - name: curl yükle
       ansible.builtin.apt:
         name:
           - curl

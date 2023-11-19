@@ -227,6 +227,7 @@ Jaeger web arayüzüne erişmek için tarayıcınızı kullanarak ```8080``` por
 Flask uygulaması, MySQL veritabanında keypair yönetim sistemi sunan backend ve frontend den oluşan bir uygulamadır.. /add /update /delete ve /search endpointleri sunarak kullanıcıya temel CRUD işlemlerini gerçekleştirmek için bir arayüz sunar. Backend servisi create, delete ve update işlemleri için gerekli web sayfalarını sunar. Frontend servisi ise read işlemleri için bir arama sayfası sağlar.
 ```bash 
 Flask Uygulaması Dosya Yapısı
+
 |-- result_server       
 |   |-- Dockerfile      
 |   |-- app.py
@@ -282,4 +283,23 @@ Kubernetes cluster içinde backend, frontend ve database image larından pod lar
 **NGINX Ingress Controller**,  Ingress, HTTP ve HTTPS gibi uygulama protokollerine dayalı istekleri yönlendirmek için kullanılır. YAML dosyasındaki örnekte, HTTP protokolü kullanıldığı için bu Ingress kaynağı L7 katmanında çalışmaktadır. http alanı, kural setlerini ve belirli HTTP yollarını içerir.
 
 Bu Ingress kaynağı, gelen isteklerin belirli URL yollarına göre yönlendirilmesini sağlar. Bizim uygulamamızda / yolundaki istekler bir servise, /result yolundaki istekler ise başka bir servise yönlendirilir.  
+```bash 
+Kubernetes manifest dosya yapısı
 
+|-- database_configmap.yaml
+|-- ingress.yaml
+|-- mysql-secret.yaml      
+|-- mysql_deployment.yml   
+|-- mysql_service.yaml     
+|-- persistent_volume.yaml 
+|-- persistent_volume_claim.yaml
+|-- result_server_deployment.yml
+|-- result_server_service.yaml  
+|-- servers_configmap.yaml      
+|-- web_server_deployment.yml
+`-- web_server_service.yaml 
+```
+Kubernetes yaml dosyalarını çalıştırmak için aşağıdaki komutu kullanabilirsiniz.
+```bash 
+kubectl apply -f manifest_files/
+```

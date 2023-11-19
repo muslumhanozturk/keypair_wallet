@@ -319,7 +319,34 @@ Jenkin'in web arayüzüne erişmek için ```8082``` portuyla gidebilirsiniz.
 docker container exec -it jenkins-container /bin/bash  # container'a bağlanıyoruz.
 cat /var/jenkins_home/secrets/initialAdminPassword     # jenkins server parola bilgisini kopyalayın.
                                                        # 8082 ekranından parola girişini yapıyoruz.
-Install suggested plugins          # Seçeneğini seçerek gerekli pluginlerin yüklenmesini sağlıyoruz.
+# Install suggested plugins          # Seçeneğini seçerek gerekli pluginlerin yüklenmesini sağlıyoruz.
+# Getting Started ekranında gerekli kişisel parola bilgilerini giriyoruz.
+```
+Projemizde çalışmalarımızı doğru yürütebilmemiz için gerekli pluginleri yüklememiz gerekiyor. Bunlar;
+```bash 
+Manage Jenkins --> Plugins --> Available plugins --> Ansible            --> Install
+                                                     Kubernetes
+                                                     Slack Notification
+                                                     AnsiColor
+                                                     Deploy to container
+                                                     Copy Artifact       
+```
+Şimdi de oluşturmuş olduğumuz Jenkinsfile pipeline dosyasını kullanarak github repomuzdan çekeceğimiz dosyaların çalıştırılmasını otomatize edelim. Ama öncesinde Slack Notification için gerekli credentials ve ayarlamaları yapalım.
+```bash 
+# Slack uygulamasını açarak kendimize BBK2023 adında bir workspace oluşturalım ve channel olarakta keypair-wallet adında kanal açalım.
+BBK2023 --> Settings & Administration --> Manage Apps --> Jenkins CI --> Add to Slack
+Açılan yeni sekmede --> Choose a channel... --> keypair-wallet --> Add jenkins CI integration
+# Açılan yeni menüde Subdomain ve Credentials ID bilgileri bulunmakta bunları, Jenkins Server'a geçip şimdi yapacağımız adımlarla ayarlamaları tamamlamış olacağız.
+Manage Jenkins --> System --> Slack --> Workspace = "Subdomain bilgisini gir"
+                                        Default channel = "#keypair-wallet"
+                                        Credentials --> Add --> Secret Text seçilip ve Secret bölümüne Credentials ID girilerek kaydedilir.
+```
+New Item ile Jenkins te pipeline çalıştırma işlemlerine başlayabiliriz.
+```bash 
+Dashboard --> +New Item --> "Item Name" --> Pipeline --> Ok
+Description --> Keypair Wallet Project Pipeline
+Discard old builds --> Strategy --> Log Rotation --> Days 5 --> builds keep 3
+Github Project --> https://github.com/muslumhanozturk/keypair_wallet.git
 
 
 
@@ -329,5 +356,3 @@ Install suggested plugins          # Seçeneğini seçerek gerekli pluginlerin y
 
 
 ```
-docker exec -it jenkins-container  
-cat /var/jenkins_home/secrets/initialAdminPassword

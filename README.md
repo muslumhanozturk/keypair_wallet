@@ -4,6 +4,10 @@ Bulut hizmet sağlayıcılarında kullanılan servislere erişim için access ke
 
 Bu nedenle, bu süreci optimize etmek için anahtar dosyalarını güvenli bir şekilde depolamak, gerektiğinde hızlı erişim sağlamak ve yeni anahtarlar oluşturma sürecini kolaylaştırmak için bir strateji oluşturmak önemlidir. Bu, iş sürekliliğini sağlamak ve acil durum müdahalelerini en aza indirmek için hayati bir adımdır. 
 
+Bu projeyi version-1 olarak sundum ancak geliştirme aşamasında ve 2 önemli konuda geliştirmeyi hedeflemekteyim.
+1- Daha hızlı aksiyon alınabilmesi için yeni key dosyalarının script yardımıyla Bulut Hizmet Sağlayacılarında oluşturulması ve uygulamaya eklenmesi.
+2- Bu key dosyalarının daha korunaklı saklanabilmesi için kendi şifreleme algoraitmamı oluşturup sisteme dahil etmek istiyorum. 
+
 Keypair Wallet adını verdiğim projede Ansible, Docker, Kubernetes, Prometheus, Grafana, Jaeger, Jenkins gibi DevOps araçlarının yanı sıra Python, HTML, SQL Database, Nginx gibi teknolojiler ve Slack bildirimleri de aktif olarak kullanılmaktadır. 
 
 Şimdi sizlerle bu projeyi daha yakından inceleyip adım adım ilerleyerek uygulayalım.  

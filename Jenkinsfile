@@ -32,7 +32,7 @@ pipeline {
         stage('Ansible Playbooks') {
             steps {
                 script {
-                    sh 'ansible-playbook keypair_wallet/kubernetes_and_config.yml'
+                    sh 'ansible-playbook keypair_wallet/kubernetes_docker_config.yml'
                     sh 'ansible-playbook keypair_wallet/prometheus_grafana_nodeexporter.yml'
                     sh 'ansible-playbook keypair_wallet/jaeger.yml' 
                 }

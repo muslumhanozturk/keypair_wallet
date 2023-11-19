@@ -303,3 +303,31 @@ Kubernetes yaml dosyalarını çalıştırmak için aşağıdaki komutu kullanab
 ```bash 
 kubectl apply -f manifest_files/
 ```
+### Jenkins
+
+Jenkins, açık kaynaklı bir sürekli entegrasyon ve sürekli dağıtım (CI/CD) aracıdır. Yazılım geliştirme süreçlerini otomatikleştirmek, testleri yönetmek ve sürekli olarak yazılımı dağıtmak için kullanılır. Jenkins, kod tabanındaki değişiklikleri takip eder, otomatik testleri çalıştırır ve başarıyla tamamlananları belirli bir ortama dağıtarak yazılım geliştirme sürecini hızlandırır.
+```bash 
+#Jenkins kurulumu
+
+#8080 portu Jaeger uygulaması tarafından kullanıldığı için 8082 portunu kullanıyoruz.
+docker volume create jenkins
+docker container run --name jenkins-container -d -p 8082:8080 --restart=always -v jenkins:/var/jenkins_home jenkins/jenkins:lts
+```
+Jenkin'in web arayüzüne erişmek için ```8082``` portuyla gidebilirsiniz.
+```bash 
+#Jenkins bağlantı ayarları
+docker container exec -it jenkins-container /bin/bash  # container'a bağlanıyoruz.
+cat /var/jenkins_home/secrets/initialAdminPassword     # jenkins server parola bilgisini kopyalayın.
+                                                       # 8082 ekranından parola girişini yapıyoruz.
+Install suggested plugins          # Seçeneğini seçerek gerekli pluginlerin yüklenmesini sağlıyoruz.
+
+
+
+
+
+
+
+
+```
+docker exec -it jenkins-container  
+cat /var/jenkins_home/secrets/initialAdminPassword

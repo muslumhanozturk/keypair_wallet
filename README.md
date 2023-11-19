@@ -1,3 +1,5 @@
+# Keypair Wallet
+
 Bulut hizmet sağlayıcılarında kullanılan servislere erişim için access key, secret key ve keypair.pem dosyalarını oluşturmak genellikle uygulanan bir yöntemdir. Ancak bu özel anahtar dosyalarını sadece lokal bilgisayarımızda saklamak, Bulut Hizmet Sağlayıcılarına sadece kendi bilgisayarımızdan erişim sağlama yeteneğimizi sınırlar. Bu dosyaların silinmesi veya farklı bir bilgisayardan erişim sağlama ihtiyacı ortaya çıktığında, her seferinde yeni anahtarlar oluşturmak zaman kaybına neden olabilir. 
 
 Özellikle acil durumlarda, müşteri sunucusuna hızlı müdahale yapabilmek için bu anahtar dosyalarına hızla erişim sağlamak kritik öneme sahiptir. Müşteri anlaşmalarında belirtilen ciddi ücret ve cezaların önlenmesi için bu süreç hızlı ve etkili bir şekilde gerçekleştirilmelidir. 
@@ -20,7 +22,7 @@ git clone https://github.com/muslumhanozturk/keypair_wallet.git
 
 cd keypair_wallet/  
 ```
-Ansible Kurulumu
+### Ansible Kurulumu
 
 Öncelikle ansible'ın ne olduğuna bakalım. Ansible, otomasyon, yapılandırma yönetimi ve uygulama dağıtımı için kullanılan açık kaynaklı bir araçtır. Sunucuları ve altyapıyı yönetmek için YAML tabanlı bir dil kullanır. Mimarimizdeki tüm süreçte kullanılmak üzere tüm toolların yüklenmesi ve gerekli konfigurasyon ayarlamaların yapılabilmesi için gerekli olan aracımızdır.
 ```bash
@@ -220,7 +222,7 @@ Select a Prometheus data source --> Prometheus --> Import
 ```
 Jaeger web arayüzüne erişmek için tarayıcınızı kullanarak ```8080``` portunu ziyaret edebilirsiniz. Aynı şekilde, HotROD uygulamasında veri oluşturmak içinse ```8081``` portunu kullanabilirsiniz. Bu sayede Jaeger'ın izleme yeteneklerini test edebilirsiniz.
 
-Kaynak Kodu
+### Kaynak Kodu
 
 Flask uygulaması, MySQL veritabanında keypair yönetim sistemi sunan backend ve frontend den oluşan bir uygulamadır.. /add /update /delete ve /search endpointleri sunarak kullanıcıya temel CRUD işlemlerini gerçekleştirmek için bir arayüz sunar. Backend servisi create, delete ve update işlemleri için gerekli web sayfalarını sunar. Frontend servisi ise read işlemleri için bir arama sayfası sağlar.
 ```bash 
@@ -250,7 +252,7 @@ Flask Uygulaması Dosya Yapısı
         |-- index.html
         `-- login.html
 ```
-Dockerfile
+### Dockerfile
 
 Backend ve frontend kaynak kodları için iki ayrı Dockerfile dosyası oluşturuldu. Bu dosyalardan image'lar build edildi ve DockerHub'a muslumhanozturk/web:latest  ve muslumhanozturk/result:latest olarak gönderildi.
 ```bash 
@@ -261,3 +263,23 @@ RUN pip install -r requirements.txt
 EXPOSE 80
 CMD python ./app.py
 ```
+### Kubernetes
+
+Kubernetes cluster içinde backend, frontend ve database image larından pod lar oluşturmam gerekiyor. Bu podları, deployment ve replicaset objeleriyle birlikte ayağa kaldırmam gerekiyor. 
+
+**Deployment**, Replicaset'i yöneten bir denetleyicidir. Replicaset, belirli bir sayıda aynı özelliklere sahip Pod'un çalışmasını sağlar. Pod'lar, uygulamanın çalıştığı objelerdir. Yani, Deployment, istenilen Pod sayısını belirler, Replicaset bu sayıyı sürdürür ve bu Pod'lar uygulamayı çalıştırır.
+
+**Persistent Volume**, uygulamaların verilerini saklamak için kullanılan bir depolama objesidir. Kalıcı veri depolaması sağlar ve uygulamalar yeniden başlasa bile veriler korunmasını sağlar.
+
+**Persistent Volume Claim**, uygulamalar PV yi talep eder, bu talep üzerine uygun bir PV ile eşleştirilir ve veriler kalıcı olarak saklanır.
+
+**Secret**, parolalar, token ve ssh anahtarları gibi hassas bilgileri depolamanıza ve yönetmenize olanak tanır. Kubernetes te en güvenli yöntemlerden biridir. Base64 encode edilerek saklanır. Bunun yanında ayar yaparsak etcd üzerinde encrypt durabilir.
+
+**Configmap**, gizli olmayan verileri anahtar/değer çiftleri olarak depolamak için kullanılan objedir.
+
+**Service**, Bir dizi pod üzerinde çalışan bir uygulamayı ağ hizmeti olarak göstermenin soyut bir yolu. Kubernetes, pod'lara kendi IP adreslerini ve bir dizi pod için tek bir DNS adı verir ve bunlar arasında yük dengeleyebilir.
+
+**NGINX Ingress Controller**,  Ingress, HTTP ve HTTPS gibi uygulama protokollerine dayalı istekleri yönlendirmek için kullanılır. YAML dosyasındaki örnekte, HTTP protokolü kullanıldığı için bu Ingress kaynağı L7 katmanında çalışmaktadır. http alanı, kural setlerini ve belirli HTTP yollarını içerir.
+
+Bu Ingress kaynağı, gelen isteklerin belirli URL yollarına göre yönlendirilmesini sağlar. Bizim uygulamamızda / yolundaki istekler bir servise, /result yolundaki istekler ise başka bir servise yönlendirilir.  
+

@@ -32,19 +32,18 @@ pipeline {
         stage('Ansible Playbooks') {
             steps {
                 script {
-                    sh 'ansible-playbook keypair_wallet/kubernetes_docker_config.yml'
-                    sh 'ansible-playbook keypair_wallet/prometheus_grafana_nodeexporter.yml'
-                    sh 'ansible-playbook keypair_wallet/jaeger.yml' 
+                     sh 'cd keypair_wallet && ansible-playbook kubernetes_docker_config.yml'
+                     sh 'cd keypair_wallet && ansible-playbook prometheus_grafana_nodeexporter.yml'
+                     sh 'cd keypair_wallet && ansible-playbook jaeger.yml'
                 }
             }
         }
 
         stage('Kubernetes Deploy') {
             steps {
-                script {
-                    // Kubernetes YAML dosyalarını uygula 
-                    sh 'kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.2/deploy/static/provider/aws/deploy.yaml'
-                    sh 'kubectl apply -f keypair_wallet/manifest_files/'
+                script { 
+                     sh 'cd keypair_wallet && kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.2/deploy/static/provider/aws/deploy.yaml'
+                     sh 'cd keypair_wallet && kubectl apply -f manifest_files/'
                 }
             }
         }

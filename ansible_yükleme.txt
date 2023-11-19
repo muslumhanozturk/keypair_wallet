@@ -1,8 +1,0 @@
-apt update -y
-apt install net-tools
-DEBIAN_FRONTEND=noninteractive apt-get install -y ansible
-
-echo -e "[webserver]\n$(hostname -I | tr -s ' ' '\n' | head -n 1) ansible_connection=local" > inventory.txt
-
-docker volume create jenkins 
-docker container run -d -p 8080:8080 --restart=always -v jenkins:/var/jenkins_home jenkins/jenkins:lts 

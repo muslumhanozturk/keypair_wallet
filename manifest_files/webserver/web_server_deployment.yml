@@ -11,7 +11,7 @@ spec:
     metadata:
       labels:
         app: web-server
-    spec:
+    spec: 
       containers:
       - name: web-container
         image: muslumhanozturk/web:latest
@@ -39,4 +39,4 @@ spec:
             configMapKeyRef:
               name: servers-configmap
               key: MYSQL_DATABASE_HOST
-        resources: {}
+        resources: {} 

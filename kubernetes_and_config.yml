@@ -16,7 +16,7 @@
           - python3-pip
       become: true
 
-    - name: Docker'ı Yükle
+    - name: Docker'i Yükle
       ansible.builtin.shell: "pip3 install docker"
       become: true
 

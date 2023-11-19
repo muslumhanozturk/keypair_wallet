@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: result-container
-        image: muslumhanozturk/web:latest
+        image: muslumhanozturk/result:latest
         imagePullPolicy: Always        
         ports:
         - containerPort: 80

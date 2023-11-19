@@ -10,8 +10,3 @@ spec:
   selector:
     app: mysql
 
-
-
-
-# kubectl get svc
-# kubectl get ep

@@ -42,9 +42,6 @@ def before_request():
     if not session.get('logged_in') and request.endpoint in ['add_record', 'update_record', 'delete_record', 'find_records']:
         return redirect('/login')
 
-# Write a function named `find_persons` which finds persons' record using the keyword from the keypair table in the db,
-# and returns result as list of dictionary 
-# `[{'id': 1, 'name':'XXXX', 'number': 'XXXXXX'}]`.
 def find_persons(keyword):
     query = f"""
     SELECT * FROM keypair WHERE name like '%{keyword.strip().lower()}%';
@@ -56,10 +53,6 @@ def find_persons(keyword):
         persons = [{'name':'No Result', 'number':'No Result'}]
     return persons 
 
-
-# Write a function named `find_records` which finds keypair records by keyword using `GET` and `POST` methods,
-# using template files named `index.html` given under `templates` folder
-# and assign to the static route of ('/')
 @app.route('/', methods=['GET', 'POST'])
 def find_records():
     if request.method == 'POST':
@@ -69,8 +62,6 @@ def find_records():
     else:
         return render_template('index.html', show_result=False, developer_name='M.Han')
 
-
-# Add a statement to run the Flask application which can be reached from any host on port 80.
 if __name__== '__main__':
        #app.run(debug=True)
     app.run(host='0.0.0.0', port=80)

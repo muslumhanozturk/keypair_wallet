@@ -220,4 +220,44 @@ Select a Prometheus data source --> Prometheus --> Import
 ```
 Jaeger web arayüzüne erişmek için tarayıcınızı kullanarak ```8080``` portunu ziyaret edebilirsiniz. Aynı şekilde, HotROD uygulamasında veri oluşturmak içinse ```8081``` portunu kullanabilirsiniz. Bu sayede Jaeger'ın izleme yeteneklerini test edebilirsiniz.
 
+Kaynak Kodu
 
+Flask uygulaması, MySQL veritabanında keypair yönetim sistemi sunan backend ve frontend den oluşan bir uygulamadır.. /add /update /delete ve /search endpointleri sunarak kullanıcıya temel CRUD işlemlerini gerçekleştirmek için bir arayüz sunar. Backend servisi create, delete ve update işlemleri için gerekli web sayfalarını sunar. Frontend servisi ise read işlemleri için bir arama sayfası sağlar.
+```bash 
+Flask Uygulaması Dosya Yapısı
+|-- result_server       
+|   |-- Dockerfile      
+|   |-- app.py
+|   |-- requirements.txt
+|   |-- static
+|   |   |-- backgrounds.jpg
+|   |   |-- tt.png
+|   |   `-- ttbb.png       
+|   `-- templates
+|       |-- index.html
+|       `-- login.html
+`-- web_server        
+    |-- Dockerfile    
+    |-- app.py        
+    |-- requirements.txt
+    |-- static
+    |   |-- backgrounds.jpg
+    |   |-- tt.png
+    |   `-- ttbb.png
+    `-- templates
+        |-- add-update.html
+        |-- delete.html
+        |-- index.html
+        `-- login.html
+```
+Dockerfile
+
+Backend ve frontend kaynak kodları için iki ayrı Dockerfile dosyası oluşturuldu. Bu dosyalardan image'lar build edildi ve DockerHub'a muslumhanozturk/web:latest  ve muslumhanozturk/result:latest olarak gönderildi.
+```bash 
+FROM python:alpine
+COPY . /app
+WORKDIR /app
+RUN pip install -r requirements.txt
+EXPOSE 80
+CMD python ./app.py
+```

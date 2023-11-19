@@ -43,8 +43,6 @@ def before_request():
     if not session.get('logged_in') and request.endpoint in ['add_record', 'update_record', 'delete_record']:
         return redirect('/login')
 
-# Write a function named `init_todo_db` which initializes the todo db
-# Create P table within sqlite db.
 def init_keypair_db():
     keypair_table = """
     CREATE TABLE IF NOT EXISTS """+ project_db +""".keypair(
@@ -56,8 +54,6 @@ def init_keypair_db():
     """
     cursor.execute(keypair_table) 
 
-# Write a function named `insert_person` which inserts person into the keypair table in the db,
-# and returns text info about result of the operation
 def insert_person(name, number):
     query = f"""
     SELECT * FROM keypair WHERE name like '{name.strip().lower()}';
@@ -75,8 +71,6 @@ def insert_person(name, number):
     result = cursor.fetchall()
     return f'Person {name.strip().title()} added to keypair successfully'
 
-# Write a function named `update_person` which updates the person's record in the keypair table,
-# and returns text info about result of the operation
 def update_person(name, number):
     query = f"""
     SELECT * FROM keypair WHERE name like '{name.strip().lower()}';
@@ -95,9 +89,6 @@ def update_person(name, number):
 
     return f'keypair record of {name.strip().title()} is updated successfully'
 
-
-# Write a function named `delete_person` which deletes person record from the keypair table in the db,
-# and returns returns text info about result of the operation
 def delete_person(name):
     query = f"""
     SELECT * FROM keypair WHERE name like '{name.strip().lower()}';
@@ -114,10 +105,6 @@ def delete_person(name):
     cursor.execute(delete)
     return f'keypair record of {name.strip().title()} is deleted from the keypair successfully'
 
-
-# Write a function named `add_record` which inserts new record to the database using `GET` and `POST` methods,
-# using template files named `add-update.html` given under `templates` folder
-# and assign to the static route of ('add')
 @app.route('/add', methods=['GET', 'POST'])
 def add_record():
     if request.method == 'POST':
@@ -134,9 +121,6 @@ def add_record():
     else:
         return render_template('add-update.html', show_result=False, not_valid=False, action_name='save', developer_name='M.Han')
 
-# Write a function named `update_record` which updates the record in the db using `GET` and `POST` methods,
-# using template files named `add-update.html` given under `templates` folder
-# and assign to the static route of ('update')
 @app.route('/update', methods=['GET', 'POST'])
 def update_record():
     if request.method == 'POST':
@@ -154,9 +138,6 @@ def update_record():
     else:
         return render_template('add-update.html', show_result=False, not_valid=False, action_name='update', developer_name='M.Han')
 
-# Write a function named `delete_record` which updates the record in the db using `GET` and `POST` methods,
-# using template files named `delete.html` given under `templates` folder
-# and assign to the static route of ('delete')
 @app.route('/delete', methods=['GET', 'POST'])
 def delete_record():
     if request.method == 'POST':
@@ -172,8 +153,6 @@ def delete_record():
 def find_records():
     return render_template('index.html', show_result=False, developer_name='MHan')
 
-
-# Add a statement to run the Flask application which can be reached from any host on port 80.
 if __name__== '__main__':
     init_keypair_db()
     #app.run(debug=True)

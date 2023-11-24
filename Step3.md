@@ -105,6 +105,10 @@ Kubernetes manifest dosya yapısı
 |-- web_server_deployment.yml
 `-- web_server_service.yaml 
 ```
+İngress controller için gerekli konfigurasyon ayarları için öncesinde bu komutu çalıştırmanız gerekiyor.
+```bash 
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.2/deploy/static/provider/aws/deploy.yaml
+```
 Kubernetes yaml dosyalarını çalıştırmak için aşağıdaki komutu kullanabilirsiniz.
 ```bash 
 kubectl apply -f manifest_files/
